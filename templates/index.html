@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="{{ url_for('static', filename=('js/jquery.min.js'))}}"></script>
+        <script src="{{ url_for('static', filename=('js/socket.io.min.js'))}}"></script>
+    </head>
+    <body>
+        <h1>Flask-SocketIO Test</h1>
+        <p>Async mode is: <b>{{ async_mode }}</b></p>
+        <p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
+        <h2>Send:</h2>
+        <h2>Receive:</h2>
+        <div id="log"> </div>
+    </body>
+
+    <script>
+        $(function(){
+            $('#log').text('ok')
+            var namespace='/test';
+            var socketio = io(namespace);
+
+            socketio.on('connect', function(){
+                $('#log').append('<br>' + $('<div/>').text('connect').html()); 
+            })
+
+            socketio.on('my_respones', function(msg){
+                $('#log').append('<br>'+ $('<div/>').text(msg.data).html()); 
+            })
+        })
+    </script>
+</html>
